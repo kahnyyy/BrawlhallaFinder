@@ -118,11 +118,8 @@ const LEGENDS = [
   { name: "Ransom",      weapons: ["Chakram","Bow"],      stats: { str:5, dex:6, def:6, spd:5 } },
   { name: "Lady Vera",   weapons: ["Chakram","Scythe"],           stats: { str:5, dex:6, def:5, spd:6 } },
   { name: "Rupture",     weapons: ["Katars","Rocket Lance"],    stats: { str:6, dex:5, def:6, spd:5 } },
-<<<<<<< HEAD
   { name: "Aurus",       weapons: ["Chakram","Spear"],    stats: { str:6, dex:6, def:6, spd:4 } },
   { name: "Pumpking Angus", weapons: ["Pumpkin","Rocket Lance", "Sword", "Axe"],    stats: { str:6, dex:7, def:6, spd:7 } },
-=======
->>>>>>> fe7d0977b6a6edc4d86408b9f21ada43ef037a91
 ];
 
 const WIKI_BASE = "https://brawlhalla.wiki.gg/wiki/";
