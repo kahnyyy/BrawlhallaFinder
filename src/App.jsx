@@ -107,10 +107,10 @@ const LEGENDS = [
   { name: "Vivi",        weapons: ["Battle Boots","Blasters"], stats: { str:5, dex:6, def:5, spd:6 } },
   { name: "Imugi",       weapons: ["Axe","Greatsword"],        stats: { str:6, dex:5, def:5, spd:6 } },
   { name: "King Zuva",   weapons: ["Hammer","Battle Boots"],   stats: { str:6, dex:5, def:6, spd:5 } },
-  { name: "Priya",       weapons: ["Chakram","Rocket Lance"],  stats: { str:6, dex:5, def:5, spd:6 } },
-  { name: "Ransom",      weapons: ["Chakram","Blasters"],      stats: { str:5, dex:6, def:6, spd:5 } },
-  { name: "Lady Vera",   weapons: ["Chakram","Orb"],           stats: { str:5, dex:6, def:5, spd:6 } },
-  { name: "Rupture",     weapons: ["Chakram","Greatsword"],    stats: { str:6, dex:5, def:6, spd:5 } },
+  { name: "Priya",       weapons: ["Chakram","Sword"],  stats: { str:6, dex:5, def:5, spd:6 } },
+  { name: "Ransom",      weapons: ["Chakram","Bow"],      stats: { str:5, dex:6, def:6, spd:5 } },
+  { name: "Lady Vera",   weapons: ["Chakram","Scythe"],           stats: { str:5, dex:6, def:5, spd:6 } },
+  { name: "Rupture",     weapons: ["Katars","Rocket Lance"],    stats: { str:6, dex:5, def:6, spd:5 } },
 ];
 
 const WIKI_BASE = "https://brawlhalla.wiki.gg/wiki/";
