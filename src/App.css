@@ -588,7 +588,16 @@ kbd {
   display: inline-block; vertical-align: middle;
   margin: 0 3px;
 }
-
+.legend-card.custom {
+  border-color: #ff6b00;
+  background: linear-gradient(135deg, var(--card) 60%, rgba(255,107,0,0.12));
+}
+.legend-card.custom .l-name {
+  background: linear-gradient(90deg, #ff6b00, #f5c842);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 /* ── MOBILE — proper responsive ── */
 @media (max-width: 600px) {
   header { padding: 36px 16px 28px; }

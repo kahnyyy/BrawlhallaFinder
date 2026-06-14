@@ -8,7 +8,7 @@ const WEAPONS = [
   { id: "Axe" }, { id: "Battle Boots" }, { id: "Blasters" }, { id: "Bow" },
   { id: "Cannon" }, { id: "Chakram" }, { id: "Gauntlets" }, { id: "Greatsword" },
   { id: "Hammer" }, { id: "Katars" }, { id: "Orb" }, { id: "Rocket Lance" },
-  { id: "Scythe" }, { id: "Spear" }, { id: "Sword" },
+  { id: "Scythe" }, { id: "Spear" }, { id: "Sword" }, { id: "Pumpkin"},
 ];
 
 const CUSTOM_AVATARS = {
@@ -19,7 +19,7 @@ const WEAPON_EMOJI = {
   Axe: "🪓", "Battle Boots": "🥾", Blasters: "🔫", Bow: "🏹",
   Cannon: "💣", Chakram: "💫", Gauntlets: "🥊", Greatsword: "⚔️",
   Hammer: "🔨", Katars: "🗡️", Orb: "🔮", "Rocket Lance": "🚀",
-  Scythe: "🌙", Spear: "🎯", Sword: "⚡",
+  Scythe: "🌙", Spear: "🎯", Sword: "⚡", Pumpkin: "🎃"
 };
 
 const WEAPON_CATEGORIES = {
