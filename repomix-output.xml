@@ -189,28 +189,14 @@ export default defineConfig([
 </file>
 
 <file path="README.md">
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+kahny
 </file>
 
 <file path="src/App.css">
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
+/* ── DARK THEME (default) ── */
+:root, [data-theme="dark"] {
   --bg: #07070e;
   --panel: #0f0f1c;
   --card: #141425;
@@ -222,6 +208,44 @@ If you are developing a production application, we recommend using TypeScript wi
   --text: #e8e8f5;
   --muted: #606090;
   --radius: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --compare-a: rgba(91,156,246,0.18);
+  --compare-b: rgba(232,105,61,0.18);
+  --compare-a-border: #5b9cf6;
+  --compare-b-border: #e8693d;
+}
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg: #f4f3ef;
+  --panel: #ffffff;
+  --card: #fafaf7;
+  --border: #e2e0d8;
+  --border-bright: #c8c5bb;
+  --accent: #c4960a;
+  --accent2: #c94e20;
+  --accent-glow: rgba(196,150,10,0.12);
+  --text: #1a1820;
+  --muted: #7a7668;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.1);
+  --compare-a: rgba(37,99,235,0.1);
+  --compare-b: rgba(201,78,32,0.1);
+  --compare-a-border: #2563eb;
+  --compare-b-border: #c94e20;
+}
+
+[data-theme="light"] body { background: var(--bg); }
+[data-theme="light"] .bg-grid {
+  background-image:
+    linear-gradient(rgba(196,150,10,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,150,10,0.06) 1px, transparent 1px);
+}
+[data-theme="light"] .blob-1 { background: rgba(196,150,10,0.06); }
+[data-theme="light"] .blob-2 { background: rgba(201,78,32,0.07); }
+[data-theme="light"] h1 {
+  background: linear-gradient(140deg, #1a1820 0%, var(--accent) 55%, var(--accent2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
 body {
@@ -230,9 +254,20 @@ body {
   font-family: 'Barlow', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background 0.25s, color 0.25s;
 }
 
-.app { position: relative; min-height: 100vh; }
+.app { position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 100;
+  background: var(--panel); border: 1px solid var(--border-bright);
+  border-radius: 50%; width: 40px; height: 40px;
+  cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow); transition: all 0.2s; color: var(--text);
+}
+.theme-toggle:hover { border-color: var(--accent); transform: rotate(20deg) scale(1.1); }
 
 .bg-grid {
   position: fixed; inset: 0;
@@ -272,7 +307,8 @@ h1 {
 /* ── MAIN ── */
 main {
   position: relative; z-index: 1;
-  max-width: 960px; margin: 0 auto; padding: 40px 20px 100px;
+  max-width: 960px; margin: 0 auto; padding: 40px 20px 80px;
+  flex: 1;
 }
 
 /* ── SELECTION ROW ── */
@@ -299,11 +335,9 @@ main {
 .pill-remove { opacity: 0.5; font-size: 11px; margin-left: 4px; }
 .sel-plus { font-size: 22px; color: var(--muted); font-weight: 200; }
 
-/* Weapon images in pills */
 img.pill-weapon-img { width: 20px; height: 20px; object-fit: contain; border-radius: 3px; flex-shrink: 0; }
 span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
 
-/* Share button */
 .share-btn {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -332,6 +366,7 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
   background: var(--panel); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 24px 24px 28px;
   margin-bottom: 40px; position: relative; overflow: hidden;
+  box-shadow: var(--shadow);
 }
 .picker-panel::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -353,7 +388,6 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
 }
 .step-num.done { background: rgba(245,200,66,0.15); }
 
-/* Category tabs */
 .cat-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .cat-tab {
   font-family: 'Barlow Condensed', sans-serif;
@@ -364,9 +398,11 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
 .cat-tab:hover { border-color: var(--border-bright); color: var(--text); }
 .cat-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.08); }
 
-/* Weapon grid */
+/* ── WEAPON GRID — responsive ── */
 .weapon-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 10px;
 }
 .weapon-btn {
   background: var(--card); border: 1px solid var(--border); border-radius: 10px;
@@ -395,11 +431,15 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
 
 /* ── SEARCH ── */
 .search-wrap {
-  position: relative; margin-bottom: 24px;
+  position: relative; margin-bottom: 16px;
+}
+.search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; pointer-events: none;
 }
 .search-input {
   width: 100%; background: var(--card); border: 1px solid var(--border-bright);
-  border-radius: 10px; padding: 11px 40px 11px 16px;
+  border-radius: 10px; padding: 11px 40px 11px 42px;
   color: var(--text); font-family: 'Barlow', sans-serif; font-size: 15px;
   outline: none; transition: border-color 0.15s;
 }
@@ -411,6 +451,52 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
   font-size: 14px; padding: 4px; transition: color 0.15s;
 }
 .search-clear:hover { color: var(--accent2); }
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
+  padding: 10px 14px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.toolbar-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+}
+.sort-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.sort-tab {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted); background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: all 0.15s;
+  white-space: nowrap;
+}
+.sort-tab:hover { border-color: var(--border-bright); color: var(--text); }
+.sort-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(245,200,66,0.08); }
+
+.fav-filter-btn, .compare-toggle-btn, .random-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--muted); background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: all 0.15s;
+  white-space: nowrap;
+}
+.fav-filter-btn:hover { border-color: #f5c842; color: #f5c842; }
+.fav-filter-btn.active { border-color: #f5c842; color: #f5c842; background: rgba(245,200,66,0.12); }
+.compare-toggle-btn:hover { border-color: #5b9cf6; color: #5b9cf6; }
+.compare-toggle-btn.active { border-color: #5b9cf6; color: #5b9cf6; background: rgba(91,156,246,0.12); }
+.random-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.compare-hint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; letter-spacing: 1px; color: #5b9cf6;
+  text-align: center; margin-bottom: 16px; padding: 8px;
+  border: 1px dashed rgba(91,156,246,0.4); border-radius: 8px;
+  background: rgba(91,156,246,0.05);
+}
 
 /* ── RESULTS ── */
 .results { animation: fadeIn 0.3s ease; }
@@ -452,20 +538,51 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
 }
 .legend-card:hover { border-color: var(--border-bright); }
 .legend-card.expanded { border-color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); }
+.legend-card.compare-a { border-color: var(--compare-a-border); background: var(--compare-a); }
+.legend-card.compare-b { border-color: var(--compare-b-border); background: var(--compare-b); }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Random flash */
+@keyframes flashGold {
+  0%, 100% { box-shadow: none; }
+  25%, 75% { box-shadow: 0 0 0 3px var(--accent), 0 0 32px var(--accent-glow); }
+}
+.random-flash { animation: flashGold 1.2s ease !important; }
+
 .card-main {
   padding: 20px 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px;
-  cursor: pointer; transition: background 0.15s;
+  cursor: pointer; transition: background 0.15s; position: relative;
 }
 .card-main:hover { background: rgba(255,255,255,0.02); }
 
+/* Fav button */
+.card-top-actions {
+  position: absolute; top: 8px; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 10px; pointer-events: none;
+}
+.fav-btn {
+  font-size: 16px; background: none; border: none; cursor: pointer;
+  color: var(--muted); transition: all 0.15s; padding: 2px 4px;
+  pointer-events: all;
+  line-height: 1;
+}
+.fav-btn:hover { color: #f5c842; transform: scale(1.2); }
+.fav-btn.fav-active { color: #f5c842; }
+
+.compare-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  background: #5b9cf6; color: #fff;
+  border-radius: 4px; padding: 2px 6px; pointer-events: none;
+}
+
 .legend-avatar {
-  width: 70px; height: 70px; border-radius: 50%;
+  border-radius: 50%;
   background: var(--panel); border: 2px solid var(--border-bright);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden; transition: border-color 0.2s; flex-shrink: 0;
@@ -508,12 +625,17 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
   color: var(--muted); width: 26px; flex-shrink: 0;
 }
 .stat-track {
-  flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden;
+  flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; position: relative;
 }
-.stat-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.stat-fill { position: absolute; height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.stat-fill-compare { position: absolute; height: 100%; border-radius: 3px; }
 .stat-val {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 13px; color: var(--text); width: 14px; text-align: right; flex-shrink: 0;
+}
+.stat-diff {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; width: 24px; text-align: right; flex-shrink: 0;
 }
 
 /* Card actions */
@@ -536,6 +658,74 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
   display: flex; align-items: center; justify-content: center; gap: 4px;
 }
 .wiki-link:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* ── COMPARE OVERLAY ── */
+.compare-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; animation: fadeIn 0.2s ease;
+}
+.compare-panel {
+  background: var(--panel); border: 1px solid var(--border-bright);
+  border-radius: 20px; padding: 28px 28px 24px;
+  max-width: 560px; width: 100%; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: slideUp 0.25s ease;
+}
+.compare-close {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--card); border: 1px solid var(--border-bright);
+  border-radius: 8px; color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 12px; cursor: pointer; transition: all 0.15s;
+}
+.compare-close:hover { border-color: var(--accent2); color: var(--accent2); }
+.compare-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; margin-bottom: 24px;
+}
+.compare-legend {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.compare-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px; text-align: center; color: var(--text);
+}
+.compare-vs {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 4px; color: var(--accent);
+  flex-shrink: 0; padding-top: 16px;
+}
+.compare-stats { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.compare-stat-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.compare-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; color: var(--muted); width: 24px; text-align: center; flex-shrink: 0;
+  transition: color 0.2s;
+}
+.compare-stat-val.stat-winner { color: var(--accent); }
+.compare-stat-bars {
+  flex: 1; display: flex; align-items: center; gap: 6px;
+}
+.compare-bar-wrap {
+  flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+}
+.compare-bar-left .compare-bar-fill { float: right; height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.compare-bar-right .compare-bar-fill { float: left; height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.compare-stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted);
+  width: 28px; text-align: center; flex-shrink: 0;
+}
+.compare-summary { text-align: center; padding-top: 8px; border-top: 1px solid var(--border); }
+.compare-verdict {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; letter-spacing: 1px; color: var(--muted);
+}
 
 /* ── NO RESULTS ── */
 .no-results {
@@ -566,22 +756,102 @@ span.pill-weapon-img { font-size: 16px; line-height: 1; flex-shrink: 0; }
   border-radius: 6px; padding: 3px 9px;
 }
 
+/* ── FOOTER ── */
+.app-footer {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  padding: 16px 28px; border-top: 1px solid var(--border);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+  margin-top: auto;
+}
+.kbd-hints { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+kbd {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  background: var(--card); border: 1px solid var(--border-bright);
+  border-radius: 4px; padding: 2px 6px; color: var(--text);
+}
+
 /* ── MISC ── */
 .start-hint {
   text-align: center; margin-top: 8px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
 }
+.start-hint kbd {
+  display: inline-block; vertical-align: middle;
+  margin: 0 3px;
+}
 
-@media (max-width: 480px) {
-  .weapon-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-  .results-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .picker-top { flex-direction: column; align-items: flex-start; }
+/* ── MOBILE — proper responsive ── */
+@media (max-width: 600px) {
+  header { padding: 36px 16px 28px; }
+
+  .theme-toggle { top: 12px; right: 12px; width: 36px; height: 36px; font-size: 16px; }
+
+  h1 { font-size: clamp(54px, 18vw, 80px); }
+
+  main { padding: 24px 12px 60px; }
+
+  .sel-row { gap: 8px; }
+  .sel-empty { font-size: 12px; padding: 8px 16px; min-width: 100px; }
+  .sel-pill { font-size: 12px; padding: 7px 14px; gap: 8px; }
+
+  /* Weapon grid: compact 3-col on phones */
+  .weapon-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+  }
+  .weapon-btn { padding: 10px 4px 8px; gap: 4px; }
+  .weapon-img, .btn-weapon-img { width: 26px; height: 26px; }
+  .weapon-emoji { font-size: 20px; }
+  .w-label { font-size: 9px; letter-spacing: 0.5px; }
+  .w-cat { display: none; }
+  .w-check { font-size: 9px; top: 3px; right: 5px; }
+
+  /* Picker panel */
+  .picker-panel { padding: 16px 12px 20px; }
+  .picker-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .picker-heading { font-size: 17px; }
+  .cat-tabs { gap: 4px; }
+  .cat-tab { font-size: 11px; padding: 4px 10px; }
+
+  /* Toolbar: stack on mobile */
+  .toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .toolbar-left, .toolbar-right { width: 100%; }
+  .toolbar-right { justify-content: flex-end; }
+  .sort-tabs { gap: 3px; }
+  .sort-tab { font-size: 10px; padding: 3px 8px; }
+
+  /* Results grid: 2-col on phones */
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .legend-card .l-name { font-size: 15px; }
+  .tag { font-size: 9px; padding: 2px 6px; }
+
+  /* Compare panel */
+  .compare-panel { padding: 20px 16px 18px; }
+  .compare-header { gap: 6px; }
+  .compare-name { font-size: 16px; }
+  .compare-vs { font-size: 22px; padding-top: 10px; }
+
+  /* Footer */
+  .app-footer { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 16px; }
+  .start-hint { font-size: 12px; }
+}
+
+@media (max-width: 380px) {
+  .weapon-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .sel-row { gap: 6px; }
 }
 </file>
 
 <file path="src/App.jsx">
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import "./App.css";
 
 /* ─── WEAPONS ─── */
@@ -625,19 +895,17 @@ const WEAPON_IMAGES = {
   Sword:          "https://cms.brawlhalla.com/c/uploads/2022/06/Sword_Icon_2.png",
 };
 
-/* ─── FULL LEGEND DATABASE with verified stats (str/dex/def/spd = 22 total) ─── */
 const LEGENDS = [
   { name: "Bodvar",      weapons: ["Sword","Hammer"],          stats: { str:6, dex:6, def:5, spd:5 } },
   { name: "Cassidy",     weapons: ["Hammer","Blasters"],       stats: { str:6, dex:8, def:4, spd:4 } },
   { name: "Orion",       weapons: ["Rocket Lance","Spear"],    stats: { str:4, dex:5, def:6, spd:7 } },
   { name: "Lord Vraxx",  weapons: ["Rocket Lance","Blasters"], stats: { str:4, dex:8, def:4, spd:6 } },
-  { name: "Gnash",       weapons: ["Hammer","Spear"],          stats: { str:7, dex:3, def:6, spd:6 } },  // moved to spd 6 (total=22: 7+3+6+6)
+  { name: "Gnash",       weapons: ["Hammer","Spear"],          stats: { str:7, dex:3, def:6, spd:6 } },
   { name: "Queen Nai",   weapons: ["Spear","Katars"],          stats: { str:7, dex:4, def:8, spd:3 } },
   { name: "Hattori",     weapons: ["Sword","Spear"],           stats: { str:4, dex:6, def:4, spd:8 } },
   { name: "Sir Roland",  weapons: ["Sword","Rocket Lance"],    stats: { str:5, dex:5, def:8, spd:4 } },
   { name: "Scarlet",     weapons: ["Hammer","Rocket Lance"],   stats: { str:8, dex:5, def:5, spd:4 } },
-  { name: "Thatch",      weapons: ["Sword","Blasters"],        stats: { str:7, dex:6, def:3, spd:6 } },  // was missing, added (22 total)
-  // Removed duplicate Lord Vraxx entry
+  { name: "Thatch",      weapons: ["Sword","Blasters"],        stats: { str:7, dex:6, def:3, spd:6 } },
   { name: "Ada",         weapons: ["Blasters","Spear"],        stats: { str:6, dex:7, def:3, spd:6 } },
   { name: "Sentinel",    weapons: ["Hammer","Katars"],         stats: { str:6, dex:4, def:7, spd:5 } },
   { name: "Lucien",      weapons: ["Katars","Blasters"],       stats: { str:3, dex:6, def:5, spd:8 } },
@@ -645,7 +913,7 @@ const LEGENDS = [
   { name: "Brynn",       weapons: ["Axe","Spear"],             stats: { str:6, dex:5, def:4, spd:7 } },
   { name: "Asuri",       weapons: ["Katars","Sword"],          stats: { str:4, dex:7, def:6, spd:5 } },
   { name: "Barraza",     weapons: ["Axe","Blasters"],          stats: { str:6, dex:4, def:8, spd:4 } },
-  { name: "Ember",       weapons: ["Bow","Katars"],            stats: { str:5, dex:6, def:3, spd:8 } },  // was missing, added
+  { name: "Ember",       weapons: ["Bow","Katars"],            stats: { str:5, dex:6, def:3, spd:8 } },
   { name: "Azoth",       weapons: ["Bow","Axe"],               stats: { str:7, dex:5, def:5, spd:5 } },
   { name: "Koji",        weapons: ["Sword","Bow"],             stats: { str:5, dex:8, def:4, spd:5 } },
   { name: "Ulgrim",      weapons: ["Axe","Rocket Lance"],      stats: { str:6, dex:3, def:7, spd:6 } },
@@ -653,7 +921,7 @@ const LEGENDS = [
   { name: "Jhala",       weapons: ["Sword","Axe"],             stats: { str:7, dex:7, def:3, spd:5 } },
   { name: "Kor",         weapons: ["Hammer","Gauntlets"],      stats: { str:6, dex:5, def:7, spd:4 } },
   { name: "Wu Shang",    weapons: ["Gauntlets","Spear"],       stats: { str:5, dex:7, def:5, spd:5 } },
-  { name: "Val",         weapons: ["Gauntlets","Sword"],       stats: { str:4, dex:6, def:6, spd:6 } },  // was missing
+  { name: "Val",         weapons: ["Gauntlets","Sword"],       stats: { str:4, dex:6, def:6, spd:6 } },
   { name: "Ragnir",      weapons: ["Katars","Axe"],            stats: { str:6, dex:5, def:6, spd:5 } },
   { name: "Cross",       weapons: ["Gauntlets","Blasters"],    stats: { str:7, dex:4, def:5, spd:6 } },
   { name: "Mirage",      weapons: ["Spear","Scythe"],          stats: { str:7, dex:5, def:4, spd:6 } },
@@ -685,39 +953,48 @@ const LEGENDS = [
   { name: "Arcadia",     weapons: ["Spear","Greatsword"],      stats: { str:7, dex:7, def:4, spd:4 } },
   { name: "Ezio",        weapons: ["Sword","Orb"],             stats: { str:5, dex:7, def:4, spd:6 } },
   { name: "Tezca",       weapons: ["Gauntlets","Battle Boots"],stats: { str:7, dex:5, def:5, spd:5 } },
-  { name: "Thea",        weapons: ["Battle Boots","Rocket Lance"], stats: { str:4, dex:5, def:3, spd:9 } },  // was missing
+  { name: "Thea",        weapons: ["Battle Boots","Rocket Lance"], stats: { str:4, dex:5, def:3, spd:9 } },
   { name: "Red Raptor",  weapons: ["Battle Boots","Orb"],      stats: { str:5, dex:6, def:6, spd:5 } },
   { name: "Loki",        weapons: ["Katars","Scythe"],         stats: { str:4, dex:8, def:5, spd:5 } },
   { name: "Seven",       weapons: ["Spear","Cannon"],          stats: { str:7, dex:3, def:8, spd:4 } },
   { name: "Vivi",        weapons: ["Battle Boots","Blasters"], stats: { str:5, dex:6, def:5, spd:6 } },
   { name: "Imugi",       weapons: ["Axe","Greatsword"],        stats: { str:6, dex:5, def:5, spd:6 } },
   { name: "King Zuva",   weapons: ["Hammer","Battle Boots"],   stats: { str:6, dex:5, def:6, spd:5 } },
-  { name: "Priya",       weapons: ["Chakram","Rocket Lance"],  stats: { str:6, dex:5, def:5, spd:6 } },
-  { name: "Ransom",      weapons: ["Chakram","Blasters"],      stats: { str:5, dex:6, def:6, spd:5 } },
-  { name: "Lady Vera",   weapons: ["Chakram","Orb"],           stats: { str:5, dex:6, def:5, spd:6 } },
-  { name: "Rupture",     weapons: ["Chakram","Greatsword"],    stats: { str:6, dex:5, def:6, spd:5 } },
+  { name: "Priya",       weapons: ["Chakram","Sword"],  stats: { str:6, dex:5, def:5, spd:6 } },
+  { name: "Ransom",      weapons: ["Chakram","Bow"],      stats: { str:5, dex:6, def:6, spd:5 } },
+  { name: "Lady Vera",   weapons: ["Chakram","Scythe"],           stats: { str:5, dex:6, def:5, spd:6 } },
+  { name: "Rupture",     weapons: ["Katars","Rocket Lance"],    stats: { str:6, dex:5, def:6, spd:5 } },
+  { name: "Aurus",       weapons: ["Chakram","Spear"],    stats: { str:6, dex:6, def:6, spd:4 } },
+  { name: "Pumpking Angus", weapons: ["Pumpkin","Rocket Lance"],    stats: { str:6, dex:7, def:6, spd:7 } },
 ];
 
 const WIKI_BASE = "https://brawlhalla.wiki.gg/wiki/";
 
+/* ─── STAT COLORS ─── */
+const STAT_COLORS = { str: "#e8693d", dex: "#f5c842", def: "#5b9cf6", spd: "#6de89a" };
+
 /* ─── URL STATE ─── */
 function getWeaponsFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const raw = params.get("weapons");
-  if (!raw) return [];
-  return raw.split(",").map(decodeURIComponent).filter(w =>
-    WEAPONS.some(x => x.id === w)
-  ).slice(0, 2);
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get("weapons");
+    if (!raw) return [];
+    return raw.split(",").map(decodeURIComponent).filter(w =>
+      WEAPONS.some(x => x.id === w)
+    ).slice(0, 2);
+  } catch { return []; }
 }
 
 function setWeaponsInURL(weapons) {
-  const url = new URL(window.location.href);
-  if (weapons.length > 0) {
-    url.searchParams.set("weapons", weapons.map(encodeURIComponent).join(","));
-  } else {
-    url.searchParams.delete("weapons");
-  }
-  window.history.replaceState(null, "", url.toString());
+  try {
+    const url = new URL(window.location.href);
+    if (weapons.length > 0) {
+      url.searchParams.set("weapons", weapons.map(encodeURIComponent).join(","));
+    } else {
+      url.searchParams.delete("weapons");
+    }
+    window.history.replaceState(null, "", url.toString());
+  } catch {}
 }
 
 /* ─── HELPERS ─── */
@@ -725,12 +1002,13 @@ function getInitials(name) {
   return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
 }
 
-function LegendAvatar({ name }) {
+function LegendAvatar({ name, size = 70 }) {
   const [failed, setFailed] = useState(false);
   const wikiName = name.replace(/\s+/g, "");
-  const src = `https://brawlhalla.wiki.gg/images/thumb/SkinIcon_${wikiName}_Classic.png/75px-SkinIcon_${wikiName}_Classic.png`;
+  const px = size <= 50 ? 50 : 75;
+  const src = `https://brawlhalla.wiki.gg/images/thumb/SkinIcon_${wikiName}_Classic.png/${px}px-SkinIcon_${wikiName}_Classic.png`;
   return (
-    <div className="legend-avatar">
+    <div className="legend-avatar" style={{ width: size, height: size }}>
       {!failed
         ? <img src={src} alt={name} onError={() => setFailed(true)} />
         : <span className="avatar-initials">{getInitials(name)}</span>}
@@ -746,15 +1024,25 @@ function WeaponImg({ id, className = "" }) {
   return <img className={`weapon-img ${className}`} src={src} alt={id} onError={() => setFailed(true)} />;
 }
 
-function StatBar({ label, value, color }) {
+function StatBar({ label, value, color, compareValue = null }) {
   const pct = (value / 9) * 100;
+  const comparePct = compareValue !== null ? (compareValue / 9) * 100 : null;
+  const diff = compareValue !== null ? value - compareValue : null;
   return (
     <div className="stat-row">
       <span className="stat-label">{label}</span>
       <div className="stat-track">
         <div className="stat-fill" style={{ width: `${pct}%`, background: color }} />
+        {comparePct !== null && (
+          <div className="stat-fill-compare" style={{ width: `${comparePct}%`, background: color, opacity: 0.3 }} />
+        )}
       </div>
       <span className="stat-val">{value}</span>
+      {diff !== null && diff !== 0 && (
+        <span className="stat-diff" style={{ color: diff > 0 ? "#6de89a" : "#e8693d" }}>
+          {diff > 0 ? `+${diff}` : diff}
+        </span>
+      )}
     </div>
   );
 }
@@ -772,46 +1060,148 @@ function SelSlot({ label, value, onRemove }) {
   );
 }
 
-/* ─── LEGEND CARD (with expandable stats + wiki link) ─── */
-function LegendCard({ legend, selected, index, onWeaponClick }) {
+/* ─── COMPARISON PANEL ─── */
+function ComparePanel({ legendA, legendB, onClose, selectedWeapons }) {
+  if (!legendA || !legendB) return null;
+  const stats = ["str", "dex", "def", "spd"];
+  const labels = { str: "STR", dex: "DEX", def: "DEF", spd: "SPD" };
+  return (
+    <div className="compare-overlay" onClick={onClose}>
+      <div className="compare-panel" onClick={e => e.stopPropagation()}>
+        <button className="compare-close" onClick={onClose}>✕ Close</button>
+        <div className="compare-header">
+          <div className="compare-legend">
+            <LegendAvatar name={legendA.name} size={60} />
+            <p className="compare-name">{legendA.name}</p>
+            <div className="w-tags" style={{justifyContent:"center"}}>
+              {legendA.weapons.map(w => (
+                <span key={w} className={`tag${selectedWeapons.includes(w) ? " hl" : ""}`}>
+                  {WEAPON_EMOJI[w]} {w}
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="compare-vs">VS</span>
+          <div className="compare-legend">
+            <LegendAvatar name={legendB.name} size={60} />
+            <p className="compare-name">{legendB.name}</p>
+            <div className="w-tags" style={{justifyContent:"center"}}>
+              {legendB.weapons.map(w => (
+                <span key={w} className={`tag${selectedWeapons.includes(w) ? " hl" : ""}`}>
+                  {WEAPON_EMOJI[w]} {w}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="compare-stats">
+          {stats.map(s => {
+            const aVal = legendA.stats[s];
+            const bVal = legendB.stats[s];
+            const aWins = aVal > bVal;
+            const bWins = bVal > aVal;
+            return (
+              <div key={s} className="compare-stat-row">
+                <span className={`compare-stat-val ${aWins ? "stat-winner" : ""}`}>{aVal}</span>
+                <div className="compare-stat-bars">
+                  <div className="compare-bar-wrap compare-bar-left">
+                    <div className="compare-bar-fill" style={{
+                      width: `${(aVal/9)*100}%`,
+                      background: STAT_COLORS[s],
+                      opacity: aWins ? 1 : 0.5
+                    }} />
+                  </div>
+                  <span className="compare-stat-label">{labels[s]}</span>
+                  <div className="compare-bar-wrap compare-bar-right">
+                    <div className="compare-bar-fill" style={{
+                      width: `${(bVal/9)*100}%`,
+                      background: STAT_COLORS[s],
+                      opacity: bWins ? 1 : 0.5
+                    }} />
+                  </div>
+                </div>
+                <span className={`compare-stat-val ${bWins ? "stat-winner" : ""}`}>{bVal}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="compare-summary">
+          {(() => {
+            const aTotal = stats.reduce((s, k) => s + legendA.stats[k], 0);
+            const bTotal = stats.reduce((s, k) => s + legendB.stats[k], 0);
+            const aWins = stats.filter(k => legendA.stats[k] > legendB.stats[k]).length;
+            const bWins = stats.filter(k => legendB.stats[k] > legendA.stats[k]).length;
+            return (
+              <p className="compare-verdict">
+                <strong style={{color: "var(--accent)"}}>{legendA.name}</strong> wins {aWins} stats &nbsp;·&nbsp;
+                <strong style={{color: "var(--accent)"}}>{legendB.name}</strong> wins {bWins} stats
+              </p>
+            );
+          })()}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── LEGEND CARD ─── */
+function LegendCard({ legend, selected, index, onWeaponClick, isFav, onToggleFav, compareMode, onAddCompare, isCompareA, isCompareB }) {
   const [expanded, setExpanded] = useState(false);
   const { name, weapons, stats } = legend;
   const wikiUrl = `${WIKI_BASE}${encodeURIComponent(name.replace(/\s+/g, "_"))}`;
 
+  let cardClass = "legend-card";
+  if (expanded) cardClass += " expanded";
+  if (isCompareA) cardClass += " compare-a";
+  if (isCompareB) cardClass += " compare-b";
+
   return (
-    <div
-      className={`legend-card${expanded ? " expanded" : ""}`}
-      style={{ animationDelay: `${index * 0.04}s` }}
-    >
-      <div className="card-main" onClick={() => setExpanded(e => !e)}>
+    <div className={cardClass} style={{ animationDelay: `${index * 0.04}s` }}>
+      <div className="card-main" onClick={() => compareMode ? onAddCompare(legend) : setExpanded(e => !e)}>
+        <div className="card-top-actions">
+          <button
+            className={`fav-btn${isFav ? " fav-active" : ""}`}
+            onClick={e => { e.stopPropagation(); onToggleFav(name); }}
+            title={isFav ? "Remove favourite" : "Add to favourites"}
+          >
+            {isFav ? "★" : "☆"}
+          </button>
+          {compareMode && (
+            <span className="compare-badge">
+              {isCompareA ? "A" : isCompareB ? "B" : "+"}
+            </span>
+          )}
+        </div>
         <LegendAvatar name={name} />
         <p className="l-name">{name}</p>
         <div className="w-tags">
           {weapons.map(ww => (
-            <span
-              key={ww}
-              className={`tag${selected.includes(ww) ? " hl" : ""}`}
-            >
+            <span key={ww} className={`tag${selected.includes(ww) ? " hl" : ""}`}>
               {WEAPON_EMOJI[ww]} {ww}
             </span>
           ))}
         </div>
-        <span className="expand-hint">{expanded ? "▲ less" : "▼ stats"}</span>
+        {!compareMode && <span className="expand-hint">{expanded ? "▲ less" : "▼ stats"}</span>}
+        {compareMode && (
+          <span className="expand-hint">
+            {isCompareA ? "◀ Legend A" : isCompareB ? "Legend B ▶" : "Click to compare"}
+          </span>
+        )}
       </div>
 
-      {expanded && (
+      {expanded && !compareMode && (
         <div className="card-stats">
-          <StatBar label="STR" value={stats.str} color="#e8693d" />
-          <StatBar label="DEX" value={stats.dex} color="#f5c842" />
-          <StatBar label="DEF" value={stats.def} color="#5b9cf6" />
-          <StatBar label="SPD" value={stats.spd} color="#6de89a" />
+          <StatBar label="STR" value={stats.str} color={STAT_COLORS.str} />
+          <StatBar label="DEX" value={stats.dex} color={STAT_COLORS.dex} />
+          <StatBar label="DEF" value={stats.def} color={STAT_COLORS.def} />
+          <StatBar label="SPD" value={stats.spd} color={STAT_COLORS.spd} />
           <div className="card-actions">
             <button
               className="similar-btn"
               onClick={e => { e.stopPropagation(); onWeaponClick(name); }}
               title="Find legends that share a weapon"
             >
-              ⟳ Similar legends
+              ⟳ Similar
             </button>
             <a
               href={wikiUrl}
@@ -829,17 +1219,79 @@ function LegendCard({ legend, selected, index, onWeaponClick }) {
   );
 }
 
+/* ─── SORT OPTIONS ─── */
+const SORT_OPTIONS = [
+  { id: "default", label: "Default" },
+  { id: "name", label: "Name" },
+  { id: "str", label: "Strength ↓" },
+  { id: "dex", label: "Dexterity ↓" },
+  { id: "def", label: "Defense ↓" },
+  { id: "spd", label: "Speed ↓" },
+];
+
 /* ─── MAIN APP ─── */
 export default function App() {
   const [selected, setSelected] = useState(getWeaponsFromURL);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [similarTo, setSimilarTo] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const [sortBy, setSortBy] = useState("default");
+  const [showFavsOnly, setShowFavsOnly] = useState(false);
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareA, setCompareA] = useState(null);
+  const [compareB, setCompareB] = useState(null);
+  const [showCompare, setShowCompare] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("bh-theme") || "dark");
+  const [favs, setFavs] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("bh-favs") || "[]"); } catch { return []; }
+  });
 
-  // Sync URL whenever selected changes
+  const searchInputRef = useRef(null);
+
+  // Persist favs
+  useEffect(() => {
+    localStorage.setItem("bh-favs", JSON.stringify(favs));
+  }, [favs]);
+
+  // Persist theme + apply
+  useEffect(() => {
+    localStorage.setItem("bh-theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // Sync URL
   useEffect(() => { setWeaponsInURL(selected); }, [selected]);
 
-  // Copy share URL
-  const [copied, setCopied] = useState(false);
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKey(e) {
+      // Escape = reset
+      if (e.key === "Escape") {
+        if (showCompare) { setShowCompare(false); return; }
+        setSelected([]); setSimilarTo(null); setSearch(""); setCompareMode(false);
+        setCompareA(null); setCompareB(null);
+        return;
+      }
+      // / or f = focus search
+      if ((e.key === "/" || e.key === "f") && !e.ctrlKey && !e.metaKey) {
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) return;
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        return;
+      }
+      // r = random
+      if (e.key === "r" && !e.ctrlKey && !e.metaKey) {
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) return;
+        pickRandom();
+      }
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [showCompare, selected, similarTo]);
+
   function copyShareUrl() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -847,7 +1299,6 @@ export default function App() {
     });
   }
 
-  // Which weapons pair with the first selected?
   const validSecondWeapons = useMemo(() => {
     if (selected.length !== 1) return null;
     const set = new Set();
@@ -858,8 +1309,7 @@ export default function App() {
     return set;
   }, [selected]);
 
-  // Results filtered by selected weapons + search
-  const results = useMemo(() => {
+  const baseResults = useMemo(() => {
     if (selected.length === 0) return null;
     return LEGENDS.filter(l =>
       selected.every(w => l.weapons.includes(w)) &&
@@ -867,22 +1317,39 @@ export default function App() {
     );
   }, [selected, search]);
 
-  // "Similar legends" — find legends sharing a weapon with this legend
-  const [similarTo, setSimilarTo] = useState(null);
+  const results = useMemo(() => {
+    if (!baseResults) return null;
+    let arr = [...baseResults];
+    if (showFavsOnly) arr = arr.filter(l => favs.includes(l.name));
+    if (sortBy === "name") arr.sort((a, b) => a.name.localeCompare(b.name));
+    else if (sortBy === "str") arr.sort((a, b) => b.stats.str - a.stats.str);
+    else if (sortBy === "dex") arr.sort((a, b) => b.stats.dex - a.stats.dex);
+    else if (sortBy === "def") arr.sort((a, b) => b.stats.def - a.stats.def);
+    else if (sortBy === "spd") arr.sort((a, b) => b.stats.spd - a.stats.spd);
+    return arr;
+  }, [baseResults, sortBy, showFavsOnly, favs]);
+
   const similarResults = useMemo(() => {
     if (!similarTo) return null;
     const legend = LEGENDS.find(l => l.name === similarTo);
     if (!legend) return null;
-    return LEGENDS.filter(l =>
+    let arr = LEGENDS.filter(l =>
       l.name !== similarTo &&
-      l.weapons.some(w => legend.weapons.includes(w))
+      l.weapons.some(w => legend.weapons.includes(w)) &&
+      l.name.toLowerCase().includes(search.toLowerCase())
     );
-  }, [similarTo]);
+    if (showFavsOnly) arr = arr.filter(l => favs.includes(l.name));
+    if (sortBy === "name") arr.sort((a, b) => a.name.localeCompare(b.name));
+    else if (sortBy === "str") arr.sort((a, b) => b.stats.str - a.stats.str);
+    else if (sortBy === "dex") arr.sort((a, b) => b.stats.dex - a.stats.dex);
+    else if (sortBy === "def") arr.sort((a, b) => b.stats.def - a.stats.def);
+    else if (sortBy === "spd") arr.sort((a, b) => b.stats.spd - a.stats.spd);
+    return arr;
+  }, [similarTo, search, sortBy, showFavsOnly, favs]);
 
   function toggleWeapon(id) {
     setSelected(prev =>
-      prev.includes(id)
-        ? prev.filter(x => x !== id)
+      prev.includes(id) ? prev.filter(x => x !== id)
         : prev.length < 2 ? [...prev, id] : prev
     );
     setSimilarTo(null);
@@ -895,7 +1362,37 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Filtered weapons by category
+  function toggleFav(name) {
+    setFavs(prev => prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]);
+  }
+
+  function pickRandom() {
+    const pool = results || similarResults;
+    if (!pool || pool.length === 0) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    // Flash highlight
+    const el = document.querySelector(`[data-legend="${pick.name}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("random-flash");
+      setTimeout(() => el.classList.remove("random-flash"), 1200);
+    }
+  }
+
+  function handleAddCompare(legend) {
+    if (!compareA) {
+      setCompareA(legend);
+    } else if (!compareB && legend.name !== compareA.name) {
+      setCompareB(legend);
+      setShowCompare(true);
+    } else if (legend.name === compareA?.name) {
+      setCompareA(null);
+    } else {
+      setCompareA(legend);
+      setCompareB(null);
+    }
+  }
+
   const visibleWeapons = useMemo(() => {
     if (activeCategory === "All") return WEAPONS;
     return WEAPONS.filter(w => WEAPON_CATEGORIES[w.id] === activeCategory);
@@ -911,11 +1408,20 @@ export default function App() {
     }));
   }, [results, selected]);
 
+  const activeResults = results || similarResults;
+  const showSearch = activeResults && activeResults.length > 3;
+  const showSortBar = activeResults && activeResults.length > 1;
+
   return (
-    <div className="app">
+    <div className="app" data-theme={theme}>
       <div className="bg-grid" />
       <div className="blob blob-1" />
       <div className="blob blob-2" />
+
+      {/* ── THEME TOGGLE ── */}
+      <button className="theme-toggle" onClick={() => setTheme(t => t === "dark" ? "light" : "dark")} title="Toggle theme">
+        {theme === "dark" ? "☀️" : "🌙"}
+      </button>
 
       <header>
         <p className="eyebrow">BRAWLHALLA</p>
@@ -960,11 +1466,8 @@ export default function App() {
             </p>
             <div className="cat-tabs">
               {categories.map(c => (
-                <button
-                  key={c}
-                  className={`cat-tab${activeCategory === c ? " active" : ""}`}
-                  onClick={() => setActiveCategory(c)}
-                >{c}</button>
+                <button key={c} className={`cat-tab${activeCategory === c ? " active" : ""}`}
+                  onClick={() => setActiveCategory(c)}>{c}</button>
               ))}
             </div>
           </div>
@@ -991,22 +1494,24 @@ export default function App() {
           </div>
         </section>
 
-        {/* ── Results or similar ── */}
+        {/* ── Results ── */}
         {(results !== null || similarTo) && (
           <section className="results">
             {selected.length === 2 && (
-              <button className="reset-btn" onClick={() => { setSelected([]); setSimilarTo(null); }}>
+              <button className="reset-btn" onClick={() => { setSelected([]); setSimilarTo(null); setSortBy("default"); setCompareMode(false); setCompareA(null); setCompareB(null); }}>
                 ↺ Reset
               </button>
             )}
 
             {/* Search bar */}
-            {((results && results.length > 3) || (similarResults && similarResults.length > 3)) && (
+            {showSearch && (
               <div className="search-wrap">
+                <span className="search-icon">🔍</span>
                 <input
+                  ref={searchInputRef}
                   className="search-input"
                   type="text"
-                  placeholder="Search legends..."
+                  placeholder="Search legends… (press / to focus)"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
@@ -1016,7 +1521,57 @@ export default function App() {
               </div>
             )}
 
-            {/* No results with helpful fallback */}
+            {/* Sort / Filter toolbar */}
+            {showSortBar && (
+              <div className="toolbar">
+                <div className="toolbar-left">
+                  <span className="toolbar-label">Sort:</span>
+                  <div className="sort-tabs">
+                    {SORT_OPTIONS.map(opt => (
+                      <button
+                        key={opt.id}
+                        className={`sort-tab${sortBy === opt.id ? " active" : ""}`}
+                        onClick={() => setSortBy(opt.id)}
+                      >{opt.label}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="toolbar-right">
+                  {favs.length > 0 && (
+                    <button
+                      className={`fav-filter-btn${showFavsOnly ? " active" : ""}`}
+                      onClick={() => setShowFavsOnly(f => !f)}
+                    >
+                      ★ Favs only
+                    </button>
+                  )}
+                  <button
+                    className={`compare-toggle-btn${compareMode ? " active" : ""}`}
+                    onClick={() => { setCompareMode(m => !m); setCompareA(null); setCompareB(null); setShowCompare(false); }}
+                    title="Compare two legends side by side"
+                  >
+                    ⚔ Compare
+                  </button>
+                  <button
+                    className="random-btn"
+                    onClick={pickRandom}
+                    title="Pick a random legend (press R)"
+                  >
+                    🎲 Random
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {compareMode && (
+              <div className="compare-hint">
+                {!compareA ? "Click a legend to select as Legend A"
+                  : !compareB ? `Legend A: ${compareA.name} — now pick Legend B`
+                  : ""}
+              </div>
+            )}
+
+            {/* No results */}
             {results && results.length === 0 && !similarTo && (
               <div className="no-results">
                 <p className="no-main">No legend uses this exact combination</p>
@@ -1050,7 +1605,20 @@ export default function App() {
                 </div>
                 <div className="results-grid">
                   {results.map((l, i) => (
-                    <LegendCard key={l.name} legend={l} selected={selected} index={i} onWeaponClick={handleSimilar} />
+                    <div key={l.name} data-legend={l.name}>
+                      <LegendCard
+                        legend={l}
+                        selected={selected}
+                        index={i}
+                        onWeaponClick={handleSimilar}
+                        isFav={favs.includes(l.name)}
+                        onToggleFav={toggleFav}
+                        compareMode={compareMode}
+                        onAddCompare={handleAddCompare}
+                        isCompareA={compareA?.name === l.name}
+                        isCompareB={compareB?.name === l.name}
+                      />
+                    </div>
                   ))}
                 </div>
               </>
@@ -1061,15 +1629,25 @@ export default function App() {
               <>
                 <div className="results-meta">
                   <h2 className="results-title">Similar to <span>{similarTo}</span></h2>
-                  <span className="count">{similarResults.filter(l =>
-                    l.name.toLowerCase().includes(search.toLowerCase())).length} found</span>
+                  <span className="count">{similarResults.length} found</span>
                 </div>
                 <div className="results-grid">
-                  {similarResults
-                    .filter(l => l.name.toLowerCase().includes(search.toLowerCase()))
-                    .map((l, i) => (
-                      <LegendCard key={l.name} legend={l} selected={[]} index={i} onWeaponClick={handleSimilar} />
-                    ))}
+                  {similarResults.map((l, i) => (
+                    <div key={l.name} data-legend={l.name}>
+                      <LegendCard
+                        legend={l}
+                        selected={[]}
+                        index={i}
+                        onWeaponClick={handleSimilar}
+                        isFav={favs.includes(l.name)}
+                        onToggleFav={toggleFav}
+                        compareMode={compareMode}
+                        onAddCompare={handleAddCompare}
+                        isCompareA={compareA?.name === l.name}
+                        isCompareB={compareB?.name === l.name}
+                      />
+                    </div>
+                  ))}
                 </div>
               </>
             )}
@@ -1077,9 +1655,27 @@ export default function App() {
         )}
 
         {selected.length === 0 && !similarTo && (
-          <p className="start-hint">Select a weapon above to begin</p>
+          <p className="start-hint">Select a weapon above to begin · Press <kbd>R</kbd> for random · <kbd>Esc</kbd> to reset</p>
         )}
       </main>
+
+      {/* ── Comparison overlay ── */}
+      {showCompare && compareA && compareB && (
+        <ComparePanel
+          legendA={compareA}
+          legendB={compareB}
+          onClose={() => { setShowCompare(false); setCompareA(null); setCompareB(null); }}
+          selectedWeapons={selected}
+        />
+      )}
+
+      {/* ── Footer ── */}
+      <footer className="app-footer">
+        <span>{LEGENDS.length} legends in database · Triple Threat Legend Finder</span>
+        <span className="kbd-hints">
+          <kbd>Esc</kbd> reset &nbsp; <kbd>/</kbd> search &nbsp; <kbd>R</kbd> random
+        </span>
+      </footer>
     </div>
   );
 }

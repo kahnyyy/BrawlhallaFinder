@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import AngusImg from "./assets/Angus.png";
+import PumpkinWeapon from "./assets/PumpkinWeapinBrawl.png"
 import "./App.css";
 
 /* ─── WEAPONS ─── */
@@ -8,6 +10,10 @@ const WEAPONS = [
   { id: "Hammer" }, { id: "Katars" }, { id: "Orb" }, { id: "Rocket Lance" },
   { id: "Scythe" }, { id: "Spear" }, { id: "Sword" },
 ];
+
+const CUSTOM_AVATARS = {
+  "Pumpking Angus": AngusImg,
+};
 
 const WEAPON_EMOJI = {
   Axe: "🪓", "Battle Boots": "🥾", Blasters: "🔫", Bow: "🏹",
@@ -21,7 +27,7 @@ const WEAPON_CATEGORIES = {
   Hammer: "Melee", Katars: "Melee", Greatsword: "Melee", Sword: "Melee",
   Blasters: "Ranged", Bow: "Ranged", Cannon: "Ranged",
   Orb: "Ranged", Chakram: "Ranged",
-  "Rocket Lance": "Hybrid", Scythe: "Hybrid", Spear: "Hybrid",
+  "Rocket Lance": "Hybrid", Scythe: "Hybrid", Spear: "Hybrid", Pumpkin: "Hybrid"
 };
 
 const WEAPON_IMAGES = {
@@ -40,6 +46,7 @@ const WEAPON_IMAGES = {
   Scythe:         "https://cms.brawlhalla.com/c/uploads/2022/06/Scythe_Icon_1.png",
   Spear:          "https://cms.brawlhalla.com/c/uploads/2022/03/SpearIcon2_96_1.jpg",
   Sword:          "https://cms.brawlhalla.com/c/uploads/2022/06/Sword_Icon_2.png",
+  Pumpkin:        PumpkinWeapon,
 };
 
 const LEGENDS = [
@@ -107,10 +114,12 @@ const LEGENDS = [
   { name: "Vivi",        weapons: ["Battle Boots","Blasters"], stats: { str:5, dex:6, def:5, spd:6 } },
   { name: "Imugi",       weapons: ["Axe","Greatsword"],        stats: { str:6, dex:5, def:5, spd:6 } },
   { name: "King Zuva",   weapons: ["Hammer","Battle Boots"],   stats: { str:6, dex:5, def:6, spd:5 } },
-  { name: "Priya",       weapons: ["Chakram","Rocket Lance"],  stats: { str:6, dex:5, def:5, spd:6 } },
-  { name: "Ransom",      weapons: ["Chakram","Blasters"],      stats: { str:5, dex:6, def:6, spd:5 } },
-  { name: "Lady Vera",   weapons: ["Chakram","Orb"],           stats: { str:5, dex:6, def:5, spd:6 } },
-  { name: "Rupture",     weapons: ["Chakram","Greatsword"],    stats: { str:6, dex:5, def:6, spd:5 } },
+  { name: "Priya",       weapons: ["Chakram","Sword"],  stats: { str:6, dex:5, def:5, spd:6 } },
+  { name: "Ransom",      weapons: ["Chakram","Bow"],      stats: { str:5, dex:6, def:6, spd:5 } },
+  { name: "Lady Vera",   weapons: ["Chakram","Scythe"],           stats: { str:5, dex:6, def:5, spd:6 } },
+  { name: "Rupture",     weapons: ["Katars","Rocket Lance"],    stats: { str:6, dex:5, def:6, spd:5 } },
+  { name: "Aurus",       weapons: ["Chakram","Spear"],    stats: { str:6, dex:6, def:6, spd:4 } },
+  { name: "Pumpking Angus", weapons: ["Pumpkin","Rocket Lance", "Sword", "Axe"],    stats: { str:6, dex:7, def:6, spd:7 } },
 ];
 
 const WIKI_BASE = "https://brawlhalla.wiki.gg/wiki/";
@@ -149,9 +158,10 @@ function getInitials(name) {
 
 function LegendAvatar({ name, size = 70 }) {
   const [failed, setFailed] = useState(false);
+  const custom = CUSTOM_AVATARS[name];
   const wikiName = name.replace(/\s+/g, "");
   const px = size <= 50 ? 50 : 75;
-  const src = `https://brawlhalla.wiki.gg/images/thumb/SkinIcon_${wikiName}_Classic.png/${px}px-SkinIcon_${wikiName}_Classic.png`;
+  const src = custom || `https://brawlhalla.wiki.gg/images/thumb/SkinIcon_${wikiName}_Classic.png/${px}px-SkinIcon_${wikiName}_Classic.png`;
   return (
     <div className="legend-avatar" style={{ width: size, height: size }}>
       {!failed
@@ -572,6 +582,9 @@ export default function App() {
         <p className="eyebrow">BRAWLHALLA</p>
         <h1>Triple<br />Threat</h1>
         <p className="tagline">Legend Finder</p>
+        <p style={{ color: "var(--accent)", fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: "3px", marginTop: "10px", fontSize: "14px" }}>
+          🎃 pumpkin
+        </p>
       </header>
 
       <main>
