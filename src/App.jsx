@@ -120,6 +120,7 @@ const LEGENDS = [
   { name: "Rupture",     weapons: ["Katars","Rocket Lance"],    stats: { str:6, dex:5, def:6, spd:5 } },
   { name: "Aurus",       weapons: ["Chakram","Spear"],    stats: { str:6, dex:6, def:6, spd:4 } },
   { name: "Pumpking Angus", weapons: ["Pumpkin","Rocket Lance", "Sword", "Axe"],    stats: { str:6, dex:7, def:6, spd:7 } },
+  { name: "Qinghua & Baobao", weapons: ["Cannon", "Orb"], stats: { str:5, dex:4, def:5, spd:8 } },
 ];
 
 const WIKI_BASE = "https://brawlhalla.wiki.gg/wiki/";
